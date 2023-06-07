@@ -1,0 +1,25 @@
+.PContainer {
+    position:relative;
+    bottom: 0;
+    height: 87vh;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.PContainerTop {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+    width: 100vw;
+}
+
+.PContainerBottom {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+    width: 100vw;
+}

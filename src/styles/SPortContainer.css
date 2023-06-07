@@ -1,0 +1,18 @@
+.SPortContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    width: 35vw;
+}
+
+.SPortButtons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.SPortSelect {
+    width: 7vw;
+}
