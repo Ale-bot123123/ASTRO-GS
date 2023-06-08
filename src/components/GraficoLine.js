@@ -25,7 +25,7 @@ ChartJS.register(
   Filler
 );
 
-function Grafico({name, width, min, max = null, labels = true, fill = true}) {
+function Grafico({name, width, min, max = null, labels = true, fill = true , canal}) {
 
   const options = {
     responsive: true,
@@ -81,7 +81,7 @@ function Grafico({name, width, min, max = null, labels = true, fill = true}) {
 
       const ipcRenderer = window.ipcRenderer;
 
-    ipcRenderer.receive('message-from-main', (message) => {
+    ipcRenderer.receive(canal, (message) => {
         updateChartData(message)
     });
 

@@ -9,7 +9,9 @@ function SPortContainer() {
     const selectBaud = useRef()
     const selectPath = useRef()
 
+
     let [useArrPath, setArrPath] = useState([])
+    let [ledStatus, setLedStatus] = useState({backgroundColor:"red"})
 
     const ipcRenderer = window.ipcRenderer;
 
@@ -17,17 +19,29 @@ function SPortContainer() {
         setArrPath(ports)
     });
 
+    ipcRenderer.receive("portOpenUpdate", (portIsOpen) => {
+        if(portIsOpen) {
+            setLedStatus({backgroundColor:"green"})
+        } else {
+            setLedStatus({backgroundColor:"red"})
+        }
+    });
+
     const openPort = () => {
         ipcRenderer.send("openAndClosePort", {open: true, port:{path:selectPath.current.value, baudRate:Number(selectBaud.current.value)}})
     }
 
+    const closePort = () => {
+        ipcRenderer.send("openAndClosePort", {open: false, port:{}})
+    }
+
     return (
         <div className="SPortContainer">
-            <GraficoLine name={"DATOS"} width={{width: "auto", height: "100%"}} min={0} max={255} labels ={true} fill={true}/>
+            <GraficoLine canal="T" name={"DATOS"} width={{width: "auto", height: "100%"}} min={0} max={255} labels ={true} fill={true}/>
             <div className="SPortButtons">
                 <div>
                     <button className="ButtonDefault SPortButton" onClick={openPort}>OPEN</button>
-                    <button className="ButtonDefault SPortButton">CLOSE</button>
+                    <button className="ButtonDefault SPortButton" onClick={closePort}>CLOSE</button>
                 </div>
                 <div className="SPortSelects">
                     <select ref={selectPath} className="ButtonDefault SPortSelect">
@@ -61,6 +75,7 @@ function SPortContainer() {
                     </select>
                 </div>
             </div>
+            <figure className="ledPort" style={ledStatus}></figure>
         </div>
     );
 }

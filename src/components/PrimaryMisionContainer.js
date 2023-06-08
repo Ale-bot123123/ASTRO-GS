@@ -10,9 +10,9 @@ function PrimaryMision({name}) {
 
             </div>
             <div className="PContainerBottom">
-                <GraficoLine name={"TEMPERATURA"} width={{width: "33vw"}} min={15} />
-                <GraficoLine name={"ALTURA"} width={{width: "33vw"}}/>
-                <GraficoLine name={"PRESION"} width={{width: "33vw"}}/>
+                <GraficoLine canal={"T"} name={"TEMPERATURA"} width={{width: "33vw"}} />
+                <GraficoLine canal={"A"} name={"ALTURA"} width={{width: "33vw"}}/>
+                <GraficoLine canal={"P"} name={"PRESION"} width={{width: "33vw"}}/>
             </div>
         </section>
     );

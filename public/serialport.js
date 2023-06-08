@@ -1,5 +1,6 @@
 const {SerialPort} = require("serialport");
 const {DelimiterParser} = require('@serialport/parser-delimiter');
+const enviarData = require('./dataProcess');
 
 //Verificar si hay algun puerto nuevo y mandarlo al header
 async function listSerialPorts(mainWindow) {
@@ -22,17 +23,29 @@ let puerto = null;
 
 const openAndClosePort = (mainWindow,{open, port}) => {
 
-    if(open) {
+    if(open && puerto === null) {
         puerto = new SerialPort(port)
 
         const parser = puerto.pipe(new DelimiterParser({delimiter: "\n"}))
 
-        parser.on("open", ()=>{
-            console.log("Conectado")
-        })
+        mainWindow.webContents.send("portOpenUpdate", true)
+
         parser.on("data", (data) => {
-            mainWindow.webContents.send('message-from-main', Math.round(Number(data.toString())*10)/10);
+            enviarData(mainWindow, data.toString())
         })
+
+    }else if(!open){
+        if(puerto !== null && port.path !== "" ){
+            puerto.close((err) => {
+                if (err) {
+                    console.error('Error al cerrar el puerto:', err);
+                } else {
+                    console.log('Puerto cerrado exitosamente.');
+                    mainWindow.webContents.send("portOpenUpdate", false)
+                    puerto = null
+                }
+            });
+        }
     }
 }
 
